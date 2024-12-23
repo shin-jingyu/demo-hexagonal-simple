@@ -52,6 +52,17 @@ dependencies {
     compileOnly("org.projectlombok:lombok")
     annotationProcessor("org.projectlombok:lombok")
 
+    // SWAGGER
+    //@see <a href="https://springdoc.org/ />
+    implementation ("org.springdoc:springdoc-openapi-starter-webmvc-ui:2.7.0")
+
+    // Querydsl
+    // dependencyManagement.importedProperties => Gradle 전용 설정 : BOM ( 여러 의존성의 호환 가능한 버전을 정의한 파일 )을 동적으로 참조
+    implementation ("com.querydsl:querydsl-jpa:${dependencyManagement.importedProperties["querydsl.version"]}:jakarta")
+    annotationProcessor ("com.querydsl:querydsl-apt:${dependencyManagement.importedProperties["querydsl.version"]}:jakarta")
+    annotationProcessor ("jakarta.persistence:jakarta.persistence-api")
+    annotationProcessor ("jakarta.annotation:jakarta.annotation-api")
+
     // mapstruct
     implementation("org.mapstruct:mapstruct:1.6.3")
     annotationProcessor("org.mapstruct:mapstruct-processor:1.6.3")

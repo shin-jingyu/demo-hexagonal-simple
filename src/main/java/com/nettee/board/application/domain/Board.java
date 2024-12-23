@@ -11,6 +11,7 @@ import java.time.Instant;
 @Setter
 @NoArgsConstructor
 public class Board {
+    private Long id;
     private String title;
     private String content;
     private BoardStatus status;

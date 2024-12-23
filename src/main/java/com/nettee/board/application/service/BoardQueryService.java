@@ -2,6 +2,7 @@ package com.nettee.board.application.service;
 
 import com.nettee.board.application.domain.Board;
 import com.nettee.board.application.domain.type.BoardStatus;
+import com.nettee.board.application.exception.BoardQueryErrorCode;
 import com.nettee.board.application.port.BoardQueryPort;
 import com.nettee.board.application.usecase.BoardReadUseCase;
 import lombok.RequiredArgsConstructor;
@@ -19,7 +20,8 @@ public class BoardQueryService implements BoardReadUseCase {
 
     @Override
     public Board getBoard(Long id) {
-        return boardQueryPort.findBoardById(id).orElse(null);
+        return boardQueryPort.findBoardById(id)
+                .orElseThrow(BoardQueryErrorCode.BOARD_NOT_FOUND::defaultException);
     }
 
     @Override
