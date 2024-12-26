@@ -38,9 +38,6 @@ dependencies {
     developmentOnly("org.springframework.boot:spring-boot-devtools")
     annotationProcessor("org.springframework.boot:spring-boot-configuration-processor")
 
-    // logging
-    implementation("org.springframework.boot:spring-boot-starter-log4j2")
-
     //db
     runtimeOnly("org.postgresql:postgresql:42.7.4")
     testRuntimeOnly("com.h2database:h2")
@@ -80,6 +77,11 @@ sourceSets {
     test {
         java {
             setSrcDirs(listOf("src/test/kotlin"))
+        }
+    }
+    main{
+        java {
+            srcDir("build/generated/querydsl")
         }
     }
 }

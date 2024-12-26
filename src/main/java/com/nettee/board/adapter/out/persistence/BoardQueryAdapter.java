@@ -8,10 +8,13 @@ import com.nettee.board.application.port.BoardQueryPort;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
+import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
 
 import java.util.Collection;
 import java.util.Optional;
+
+import static com.nettee.board.adapter.out.persistence.entity.QBoardEntity.boardEntity;
 
 @Repository
 public class BoardQueryAdapter extends QuerydslRepositorySupport implements BoardQueryPort {
@@ -25,17 +28,32 @@ public class BoardQueryAdapter extends QuerydslRepositorySupport implements Boar
 
     @Override
     public Page<Board> findPageByStatusIn(Collection<BoardStatus> status, Pageable pageable) {
-        return null;
+        var result = getQuerydsl().createQuery()
+                .select(boardEntity)
+                .from(boardEntity)
+                .where(
+                        boardEntity.status.in(status)
+                );
+        var totalCount = getQuerydsl().createQuery()
+                .select(boardEntity.content)
+                .from(boardEntity)
+                .where(
+                        boardEntity.status.in(status)
+                );
+        return PageableExecutionUtils.getPage(
+                result.stream().map(boardEntityMapper::toDomain).toList(),
+                pageable,
+                totalCount::fetchCount);
     }
 
     @Override
     public Optional<Board> findBoardById(Long id) {
         return boardEntityMapper.toOptionalDomain(
                 getQuerydsl().createQuery()
-                        .select(BoardEntity)
-                        .from(BoardEntity)
+                        .select(boardEntity)
+                        .from(boardEntity)
                         .where(
-                                BoardEntity.id.eq(id)
+                                boardEntity.id.eq(id)
                         ).fetchOne()
         );
     }

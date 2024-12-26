@@ -1,6 +1,7 @@
 package com.nettee.board.adapter.out.persistence.entity;
 
 import com.nettee.board.application.domain.type.BoardStatus;
+import com.nettee.common.jpa.support.BaseTimeEntity;
 import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.EnumType;
@@ -21,7 +22,7 @@ import java.util.Objects;
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 @DynamicUpdate
 @Entity(name = "board")
-public class BoardEntity {
+public class BoardEntity extends BaseTimeEntity {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -39,11 +40,11 @@ public class BoardEntity {
     @Enumerated(EnumType.STRING)
     private BoardStatus status;
 
-    @Column(name = "created_at")
-    private Instant createdAt;
-
-    @Column(name = "updated_at")
-    private Instant updatedAt;
+//    @Column(name = "created_at")
+//    private Instant createdAt;
+//
+//    @Column(name = "updated_at")
+//    private Instant updatedAt;
 
     public BoardStatus status() {
         return status;
@@ -53,7 +54,6 @@ public class BoardEntity {
     public BoardEntity(String title, String content) {
         this.title = title;
         this.content = content;
-        this.deletedAt = null;
     }
 
     @Builder(
