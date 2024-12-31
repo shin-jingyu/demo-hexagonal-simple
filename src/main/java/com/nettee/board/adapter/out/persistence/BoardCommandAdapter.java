@@ -2,6 +2,7 @@ package com.nettee.board.adapter.out.persistence;
 
 import com.nettee.board.adapter.out.mapper.BoardEntityMapper;
 import com.nettee.board.application.domain.Board;
+import com.nettee.board.application.domain.type.BoardStatus;
 import com.nettee.board.application.exception.BoardCommandErrorCode;
 import com.nettee.board.application.port.BoardCommandPort;
 import lombok.RequiredArgsConstructor;
@@ -18,6 +19,13 @@ public class BoardCommandAdapter implements BoardCommandPort {
     @Override
     public Board createBoard(Board board) {
         var boardEntity = boardEntityMapper.toEntity(board);
+        boardEntity.prepareCreate()
+                .title(board.getTitle())
+                .content(board.getContent())
+                .createdAt(now())
+                .status(BoardStatus.ACTIVE)
+                .create();
+
         return boardEntityMapper.toDomain(boardJpaRespository.save(boardEntity));
     }
 

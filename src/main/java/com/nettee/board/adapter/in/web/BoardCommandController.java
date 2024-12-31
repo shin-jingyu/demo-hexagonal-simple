@@ -56,7 +56,7 @@ public class BoardCommandController {
             description = "삭제할 게시판의 PK 값을 전달받아 게시판을 삭제합니다."
     )
     @DeleteMapping("/{boardId}")
-    public void delete(@PathVariable("boardId") Long boardId,@RequestBody BoardDeleteCommand boardDeleteCommand) {
+    public void delete(@PathVariable("boardId") Long boardId, @RequestBody BoardDeleteCommand boardDeleteCommand) {
         boardDeleteUseCase.delete(boardDeleteCommand.id());
     }
 }

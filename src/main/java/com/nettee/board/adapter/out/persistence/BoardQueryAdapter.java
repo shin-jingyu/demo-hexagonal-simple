@@ -10,6 +10,7 @@ import org.springframework.data.domain.Pageable;
 import org.springframework.data.jpa.repository.support.QuerydslRepositorySupport;
 import org.springframework.data.support.PageableExecutionUtils;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.Collection;
 import java.util.Optional;
@@ -26,6 +27,7 @@ public class BoardQueryAdapter extends QuerydslRepositorySupport implements Boar
         this.boardEntityMapper = boardEntityMapper;
     }
 
+    @Transactional
     @Override
     public Page<Board> findPageByStatusIn(Collection<BoardStatus> status, Pageable pageable) {
         var result = getQuerydsl().createQuery()
@@ -46,6 +48,7 @@ public class BoardQueryAdapter extends QuerydslRepositorySupport implements Boar
                 totalCount::fetchCount);
     }
 
+    @Transactional
     @Override
     public Optional<Board> findBoardById(Long id) {
         return boardEntityMapper.toOptionalDomain(

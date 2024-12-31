@@ -40,11 +40,11 @@ public class BoardEntity extends BaseTimeEntity {
     @Enumerated(EnumType.STRING)
     private BoardStatus status;
 
-//    @Column(name = "created_at")
-//    private Instant createdAt;
-//
-//    @Column(name = "updated_at")
-//    private Instant updatedAt;
+    @Column(name = "created_at")
+    private Instant createdAt;
+
+    @Column(name = "updated_at")
+    private Instant updatedAt;
 
     public BoardStatus status() {
         return status;
@@ -54,6 +54,18 @@ public class BoardEntity extends BaseTimeEntity {
     public BoardEntity(String title, String content) {
         this.title = title;
         this.content = content;
+    }
+
+    @Builder(
+            builderClassName = "CreateBoardBuilder",
+            builderMethodName = "prepareCreate",
+            buildMethodName = "create"
+    )
+    public void createBoard(String title, String content, BoardStatus status, Instant createdAt) {
+        this.title = title;
+        this.content = content;
+        this.status = status;
+        this.createdAt = createdAt;
     }
 
     @Builder(

@@ -46,7 +46,7 @@ public class BoardQueryController {
                     """
     )
     @GetMapping("/{boardId}")
-    public ResponseEntity<BoardDto> getBoard(@PathVariable Long boardId){
+    public ResponseEntity<BoardDto> getBoard(@PathVariable("boardId") Long boardId){
         var board = boardReadUseCase.getBoard(boardId);
         return ResponseEntity.ok(boardDtoMapper.toDto(board));
     }
