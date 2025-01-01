@@ -12,7 +12,7 @@ import static java.time.Instant.now;
 @Repository
 @RequiredArgsConstructor
 public class BoardCommandAdapter implements BoardCommandPort {
-    private final BoardJpaRespository boardJpaRespository;
+    private final BoardJpaRepository boardJpaRepository;
     private final BoardEntityMapper boardEntityMapper;
 
 
@@ -26,24 +26,24 @@ public class BoardCommandAdapter implements BoardCommandPort {
                 .status(BoardStatus.ACTIVE)
                 .create();
 
-        return boardEntityMapper.toDomain(boardJpaRespository.save(boardEntity));
+        return boardEntityMapper.toDomain(boardJpaRepository.save(boardEntity));
     }
 
     @Override
     public Board updateBoard(Board board) {
-        var existBoard = boardJpaRespository.findById(board.getId()).orElseThrow(
+        var existBoard = boardJpaRepository.findById(board.getId()).orElseThrow(
                 BoardCommandErrorCode.BOARD_NOT_FOUND::defaultException);
         existBoard.prepareUpdate()
                 .title(board.getTitle())
                 .content(board.getContent())
                 .updatedAt(now())
                 .update();
-        return boardEntityMapper.toDomain(boardJpaRespository.save(existBoard));
+        return boardEntityMapper.toDomain(boardJpaRepository.save(existBoard));
     }
 
     @Override
     public void deleteBoard(Long id) {
-        var existBoard = boardJpaRespository.findById(id).orElseThrow(
+        var existBoard = boardJpaRepository.findById(id).orElseThrow(
           BoardCommandErrorCode.BOARD_NOT_FOUND::defaultException
         );
         existBoard.setToDelete();

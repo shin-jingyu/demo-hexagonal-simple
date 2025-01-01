@@ -45,9 +45,9 @@ public class BoardCommandController {
             summary = "게시판 수정 API",
             description = "수정할 포스트의 항목(들)을 전달받아 포스트를 수정합니다."
     )
-    @PutMapping("/{boardId}")
-    public ResponseEntity<BoardDto> update(@PathVariable("boardId") Long boardId, @RequestBody @Valid BoardUpdateCommand boardUpdateCommand) {
-        var board = boardUpdateUseCase.updateBoard(boardDtoMapper.toDomain(boardUpdateCommand));
+    @PutMapping("/{id}")
+    public ResponseEntity<BoardDto> update( @PathVariable("id") Long id, @RequestBody @Valid BoardUpdateCommand boardUpdateCommand) {
+        var board = boardUpdateUseCase.updateBoard(boardDtoMapper.toDomain(id, boardUpdateCommand));
         return ResponseEntity.ok(boardDtoMapper.toDto(board));
     }
 
@@ -55,8 +55,8 @@ public class BoardCommandController {
             summary = "게시판 삭제 API",
             description = "삭제할 게시판의 PK 값을 전달받아 게시판을 삭제합니다."
     )
-    @DeleteMapping("/{boardId}")
-    public void delete(@PathVariable("boardId") Long boardId, @RequestBody BoardDeleteCommand boardDeleteCommand) {
+    @DeleteMapping
+    public void delete( @RequestBody BoardDeleteCommand boardDeleteCommand) {
         boardDeleteUseCase.delete(boardDeleteCommand.id());
     }
 }

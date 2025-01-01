@@ -12,5 +12,5 @@ public interface BoardDtoMapper {
 
     Board toDomain(BoardCreateCommand command);
 
-    Board toDomain(BoardUpdateCommand command);
+    Board toDomain(Long id, BoardUpdateCommand command);
 }

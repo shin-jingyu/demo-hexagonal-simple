@@ -27,7 +27,7 @@ public class BoardQueryAdapter extends QuerydslRepositorySupport implements Boar
         this.boardEntityMapper = boardEntityMapper;
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public Page<Board> findPageByStatusIn(Collection<BoardStatus> status, Pageable pageable) {
         var result = getQuerydsl().createQuery()
@@ -48,7 +48,7 @@ public class BoardQueryAdapter extends QuerydslRepositorySupport implements Boar
                 totalCount::fetchCount);
     }
 
-    @Transactional
+    @Transactional(readOnly = true)
     @Override
     public Optional<Board> findBoardById(Long id) {
         return boardEntityMapper.toOptionalDomain(
